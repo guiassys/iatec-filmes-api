@@ -1,0 +1,23 @@
+version: "3.6"
+
+services:
+    iatec-filme-db:
+        image: mysql:8.0
+        container_name: iatec-filme-db
+        restart: always
+        environment:
+          MYSQL_ROOT_PASSWORD: public
+          MYSQL_DATABASE: iatec-filme
+          MYSQL_USER: admin
+          MYSQL_PASSWORD: admin
+        ports:
+            - 3306:3306
+        volumes:
+            - iatec-filme-db_data:/var/lib/iatec-filme-db
+        networks:
+            - minha-rede
+networks:
+  minha-rede:
+    driver: bridge
+volumes:
+  iatec-filme-db_data:
