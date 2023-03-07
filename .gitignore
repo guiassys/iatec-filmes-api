@@ -1,0 +1,42 @@
+# arquivos compilados
+bin/
+obj/
+
+# arquivos temporários
+*.tmp
+*.log
+
+# arquivos de backup
+*~
+*.bak
+
+# arquivos gerados automaticamente
+[Tt]est[Rr]esult*/
+[Bb]uild*/
+
+# arquivos do Visual Studio
+*.user
+*.vs/
+*.suo
+*.sln.docstates
+*.psess
+*.vsp
+*.vspx
+
+# arquivos do Rider
+.idea/
+*.csproj.DotSettings
+
+# arquivos de pacote NuGet
+*.nupkg
+*.paket.props
+*.paket.targets
+
+# arquivos de configuração do ambiente
+*.config
+*.config.user
+*.config.transform
+
+# outros arquivos desnecessários
+*.cache
+*.DS_Store
