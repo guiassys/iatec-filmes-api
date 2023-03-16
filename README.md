@@ -9,7 +9,7 @@ Pre requisitos:
 2. Instalar Docker
 
 Passos para rodar o projeto:
-1. Configure o banco de dados, navegue até o diretório Docker e digite o comando: docker-compose -f docker-compose-bd.yml up.
+1. Navegue até o diretório Docker e digite o comando: docker-compose -f docker-compose-bd.yml up.
 2. Execute as migrations do projeto: dotnet ef database update
 3. Subir a API,  no diretório raiz do projeto digite os comandos: 
    3.1 dotnet build;
