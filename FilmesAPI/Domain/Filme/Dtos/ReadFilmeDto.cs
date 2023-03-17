@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FilmesApi.Data.Dtos
+namespace FilmesApi.Domain.Filme.Data
 {
     public class ReadFilmeDto
     {

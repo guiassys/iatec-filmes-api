@@ -1,21 +1,21 @@
 ﻿using AutoMapper;
 using FilmesApi.Data;
-using FilmesApi.Data.Dtos;
-using FilmesApi.Models;
+using FilmesApi.Domain.Filme.Data;
+using FilmesApi.Domain.Filme.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FilmesApi.Controllers;
+namespace FilmesApi.Domain.Filme.Controllers;
 
 [ApiController]
 [Route("[controller]")]
 public class FilmeController : ControllerBase
 {
 
-    private FilmeContext _context;
+    private FilmeRepository _context;
     private IMapper _mapper;
 
-    public FilmeController(FilmeContext context, IMapper mapper)
+    public FilmeController(FilmeRepository context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
@@ -31,14 +31,14 @@ public class FilmeController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     public IActionResult AdicionaFilme([FromBody] CreateFilmeDto filmeDto)
     {
-        Filme filme = _mapper.Map<Filme>(filmeDto);
+        FilmeEntity filme = _mapper.Map<FilmeEntity>(filmeDto);
         _context.Filmes.Add(filme);
         _context.SaveChanges();
-        return CreatedAtAction(nameof(RecuperaFilmePorId),new { id = filme.Id },filme);
+        return CreatedAtAction(nameof(RecuperaFilmePorId), new { id = filme.Id }, filme);
     }
 
     [HttpGet]
-    public IEnumerable<ReadFilmeDto> RecuperaFilmes([FromQuery] int skip = 0,[FromQuery] int take = 50)
+    public IEnumerable<ReadFilmeDto> RecuperaFilmes([FromQuery] int skip = 0, [FromQuery] int take = 50)
     {
         return _mapper.Map<List<ReadFilmeDto>>(_context.Filmes.Skip(skip).Take(take));
     }
@@ -53,7 +53,7 @@ public class FilmeController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public IActionResult AtualizaFilme(int id,[FromBody] UpdateFilmeDto filmeDto)
+    public IActionResult AtualizaFilme(int id, [FromBody] UpdateFilmeDto filmeDto)
     {
         var filme = _context.Filmes.FirstOrDefault(filme => filme.Id == id);
         if (filme == null) return NotFound();
@@ -63,7 +63,7 @@ public class FilmeController : ControllerBase
     }
 
     [HttpPatch("{id}")]
-    public IActionResult AtualizaFilmeParcial(int id,JsonPatchDocument<UpdateFilmeDto> patch)
+    public IActionResult AtualizaFilmeParcial(int id, JsonPatchDocument<UpdateFilmeDto> patch)
     {
         var filme = _context.Filmes.FirstOrDefault(filme => filme.Id == id);
         if (filme == null) return NotFound();
@@ -92,4 +92,3 @@ public class FilmeController : ControllerBase
         return NoContent();
     }
 }
-        
