@@ -5,8 +5,7 @@ namespace FilmesApi.Data;
 
 public class FilmeContext : DbContext
 {
-    public FilmeContext(DbContextOptions<FilmeContext> opts)
-        : base(opts)
+    public FilmeContext(DbContextOptions<FilmeContext> opts): base(opts)
     {
 
     }
