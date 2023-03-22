@@ -4,13 +4,14 @@ using FilmesApi.Domain.Filme.Data;
 using FilmesApi.Domain.Filme.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.IIS.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace FilmesApi.Domain.Filme.Service
 {
     public class FilmesService
     {
-
+        private ValidateFilmesService validateFilmeService = new ValidateFilmesService();
         private FilmeRepository _context;
         private IMapper _mapper;
 
@@ -22,6 +23,7 @@ namespace FilmesApi.Domain.Filme.Service
 
         public FilmeEntity InsertFilme(CreateFilmeDto filmeDto)
         {
+            validateFilmeService.validateFilmeEntity(filmeDto);
             FilmeEntity filme = _mapper.Map<FilmeEntity>(filmeDto);
             _context.Filmes.Add(filme);
             _context.SaveChanges();
@@ -36,14 +38,14 @@ namespace FilmesApi.Domain.Filme.Service
         public FilmeEntity GetFilmeById(int id)
         {
             FilmeEntity filme = _context.Filmes.FirstOrDefault(filme => filme.Id == id);
-            validateResultSearchFilmeById(id, filme);
+            validateFilmeService.validateResultSearchFilmeById(id, filme);
             return filme;
         }
 
         public FilmeEntity UpdateFilme(int id, UpdateFilmeDto filmeDto)
         {
             var filme = _context.Filmes.FirstOrDefault(filme => filme.Id == id);
-            validateResultSearchFilmeById(id, filme);
+            validateFilmeService.validateResultSearchFilmeById(id, filme);
             _mapper.Map(filmeDto, filme);
             _context.SaveChanges();
             return filme;
@@ -52,16 +54,9 @@ namespace FilmesApi.Domain.Filme.Service
         public void DeleteFilme(int id)
         {
             var filme = _context.Filmes.FirstOrDefault(filme => filme.Id == id);
-            validateResultSearchFilmeById(id, filme);
+            validateFilmeService.validateResultSearchFilmeById(id, filme);
             _context.Remove(filme);
             _context.SaveChanges();
-        }
-
-        private void validateResultSearchFilmeById(int id, FilmeEntity filme) {
-            if (filme == null)
-            {
-                throw new Exception("Erro ao buscar o filme aplicando filtro pelo Id = "+ id);
-            }
         }
 
     }
